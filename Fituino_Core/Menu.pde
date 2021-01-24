@@ -98,6 +98,7 @@ class Menu {
   void pauseMenu() {
   }
 
+
   void music() {
     if (music) {
       switch(type) {

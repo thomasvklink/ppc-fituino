@@ -9,7 +9,7 @@ class Game {
   PImage box, background;
   int backgroundPos = 0;
   boolean rave = true;
-
+  SoundFile raveSound;
 
 
   Game(int posX, int posY) {
@@ -20,14 +20,22 @@ class Game {
   void load() {
     box = loadImage("gameBox.png");
     background = loadImage("background-texture.jpg");
+    raveSound = new SoundFile(Fituino_Core.this, "crabRave.wav");
   }
 
   void display() {
     // Always displayed
     animatedBackground();
     image(box, posX, posY);
-  }
 
+    if (rave) {
+      image(crab, posX+20, posY+20);
+      main.menu.stop();
+      if (!raveSound.isPlaying()) {
+        raveSound.play();
+      }
+    }
+  }
   void animatedBackground() { //animated background from menu class
     backgroundPos++;
     if (backgroundPos > 600) {

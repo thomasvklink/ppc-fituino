@@ -33,6 +33,9 @@ Menu main;
 Test test;
 Game game;
 
+//Gifs, sound and images
+Gif crab;
+
 //Passed arduino values
 int touchL = 0;
 int touchR = 0;
@@ -61,6 +64,9 @@ void setup() {
 
   load();
   connect();
+
+  crab = new Gif(this, "crab.gif");
+  crab.play();
 }
 
 void draw() {
