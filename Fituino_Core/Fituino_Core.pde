@@ -19,6 +19,10 @@ Fituino, an Arduino interfaced fitness game in Processing
 import processing.serial.*;
 import processing.sound.*;
 
+//Colors
+color arduino = color(0, 129, 132);
+color pressed = color(0, 53, 54);
+
 //Settings
 boolean music = true;
 float volume = 0.5;
@@ -79,6 +83,10 @@ void draw() {
 
 void mouseMoved(){
   main.update(mouseX, mouseY);
+}
+
+void mousePressed(){
+  main.clicked();
 }
 
 void load() {

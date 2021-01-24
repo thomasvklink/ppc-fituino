@@ -92,25 +92,25 @@ void loop() {
   Serial.println(touchR);
 
   //Serial communcation to Processing
-  int data[] = {touchL,touchR};                       //Data array for Processing communication
-  for(int z=0;z<DATASIZE;z++){                        //Print data to the serial port
+  int data[] = {touchL,touchR};                          //Data array for Processing communication
+  for(int z=0;z<DATASIZE;z++){                           //Print data to the serial port
     Serial.print(headers[z]);
     Serial.println(data[z]);
   }
 
   //Serial communication from Processing
   if (Serial.available() > 0) {
-    incomingByte = Serial.read();                     // read the oldest byte in the serial buffer
-    if (incomingByte == 'H') {                        // if it's a capital H, turn on the Green indicator LED (LEDG)
+    incomingByte = Serial.read();                        // read the oldest byte in the serial buffer
+    if (incomingByte == 'H') {                           // if it's a capital H, turn on the Green indicator LED (LEDG)
       digitalWrite(LEDG, HIGH);
     }                                  
-    if (incomingByte == 'L') {                        // if it's an L (ASCII 76) turn off the Green indicator LED (LEDG)
+    if (incomingByte == 'L') {                           // if it's an L (ASCII 76) turn off the Green indicator LED (LEDG)
       digitalWrite(LEDG, LOW);
     }
-    if (incomingByte == 'O') {                        // if it's an 0 (ASCII 76) turn off the Yellow indicator LED (LEDG)
+    if (incomingByte == 'O') {                           // if it's an 0 (ASCII 76) turn off the Yellow indicator LED (LEDG)
       digitalWrite(LEDY, HIGH);
     }
-    if (incomingByte == 'F') {                        // if it's an F (ASCII 76) turn off the Yellow indicator LED (LEDG)
+    if (incomingByte == 'F') {                           // if it's an F (ASCII 76) turn off the Yellow indicator LED (LEDG)
       digitalWrite(LEDY, LOW);
     }
   }

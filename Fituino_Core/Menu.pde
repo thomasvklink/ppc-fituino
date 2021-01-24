@@ -10,9 +10,11 @@ class Menu {
   int mousePosX;
   int mousePosY;
   boolean overStart;
-  boolean overPractise;
+  boolean overTest;
   
   int backgroundPos = 0;
+  
+  String motd;
 
   PImage logo, background;
   SoundFile menu;
@@ -28,6 +30,8 @@ class Menu {
     logo = loadImage("Logo_Fituino.png");
     background = loadImage("background-texture.jpg");
     menu = new SoundFile(Fituino_Core.this, "soundscrate-brand-new-start.mp3");
+    String[] motdInput = loadStrings("motd.txt"); //Loading MOTD's (Message of the day) from a text file.
+    motd = motdInput[int(random(0, motdInput.length))]; //Select a random MOTD each time the program is loaded.
   }
 
   void display() {
@@ -49,7 +53,21 @@ class Menu {
     if ((mousePosX > posX-375) && (mousePosX < posX+25) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)){
       overStart = true;
     } else { overStart = false;}
-    println(overStart);
+    
+    if ((mousePosX > posX+60) && (mousePosX < posX+260) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)){
+      overTest = true;
+    } else { overTest = false;}
+    println(overTest);
+  }
+  
+  void clicked(){
+    if (overStart){
+      screen = 2;
+    }
+    
+    if (overTest){
+      screen = 3;
+    }
   }
 
   void mainMenu() {
@@ -60,16 +78,15 @@ class Menu {
 
     //Tagline
     fill(100);
-    text("So good to see you back, finally!", posX, posY+90);
+    text(motd, posX, posY+90);
 
     //Button start
     noStroke();
     if (!overStart){
-      fill(0, 129, 132);
+      fill(arduino);
     } else {
-      fill(0, 53, 54);
+      fill(pressed);
     }
-    
     rect(posX-175, posY+200, 400, 80);
     fill(255);
     textSize(30);
@@ -77,7 +94,11 @@ class Menu {
 
     //Button practise
     noStroke();
-    fill(0, 129, 132);
+    if (!overTest){
+      fill(arduino);
+    } else {
+      fill(pressed);
+    }
     rect(posX+160, posY+200, 200, 80);
     fill(255);
     textSize(30);
