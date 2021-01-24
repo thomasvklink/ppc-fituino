@@ -1,18 +1,37 @@
 /*
 Fituino, an Arduino interfaced fitness game in Processing
-January 2021
-by Thomas van Klink, s2555913
-and Hylke Jellema, s2192098
-for Creative Technology M2 PPC End assignment
+ January 2021
+ by Thomas van Klink, s2555913
+ and Hylke Jellema, s2192098
+ for Creative Technology M2 PPC End assignment
  
-Arduino communication based on "graphwriter" 
-by Edwin Dertien
-- lines 23-30, 36-42, 88-94, 98-122
-*/
+ Arduino communication based on "graphwriter" 
+ by Edwin Dertien
+ - lines 23-30, 36-42, 88-94, 98-122
+ 
+ Assets:
+ - logo.png -- own work by Thomas van Klink
+ - background-texture.jpg from Depositphotos -- https://depositphotos.com/nl/vector-images/seamless-pattern.html?qview=23759519
+ - soundcreate-brand-new-start.mp3 from SoundCrate -- https://sfx.productioncrate.com/royalty-free-music/soundscrate-brand-new-start
+ */
+
+//Libaries
+import processing.serial.*;
+import processing.sound.*;
+
+//Settings
+boolean music = true;
+float volume = 0.5;
+int screen = 1;
+
+//Objects
+Menu main;
+Test test;
+Game game;
+
+//Passed arduino values
 int touchL = 0;
 int touchR = 0;
-
-import processing.serial.*;
 
 //Variables for Arduino operations
 String buff = "";
@@ -25,34 +44,74 @@ int b;
 Serial port;
 
 void setup() {
-  size(1080,720);
+  size(1920, 1080);
+  rectMode(CENTER);
   ellipseMode(CENTER);
-  
-  //Connecting Arduino via serial
-   println("Available serial ports:");
-   for (int i = 0; i<Serial.list ().length; i++) { 
-   print("[" + i + "] ");
-   println(Serial.list()[i]);
-   }
-   port = new Serial(this, Serial.list()[0], 9600);
+  imageMode(CENTER);
+  textAlign(CENTER);
+
+  main = new Menu(width/2, height/2-50, 1);
+  game = new Game(width/2, height/2);
+  test = new Test(width/2, height/2);
+
+  load();
+  connect();
 }
 
 void draw() {
-  port.write('L');
+  background(255);
+
+  switch(screen) {
+  //Front end
+  case 1:
+    main.display();
+    break;
+  case 2:
+    break;
+  case 3:
+    test.display();
+    break;
+  }
+
+  //Back end
+  read();
+}
+
+void mouseMoved(){
+  main.update(mouseX, mouseY);
+}
+
+void load() {
+  main.load();
+  game.load();
+  test.load();
+}
+
+void connect(){
+  //Connecting Arduino via serial
+  println("Available serial ports:");
+  for (int i = 0; i<Serial.list ().length; i++) { 
+    print("[" + i + "] ");
+    println(Serial.list()[i]);
+  }
+  port = new Serial(this, Serial.list()[0], 9600);
+}
+
+void read() {
   //Arduino controller
-   while (port.available() > 0) {
+  while (port.available() > 0) {
     serialEvent(port.read()); // read data
-    }
-    touchL = value[0];
-    touchR = value[1];
-    println(touchL,touchR);
+  }
+  touchL = value[0];
+  touchR = value[1];
+  println(touchL, touchR);
 }
 
 //Catch and parse serial data from Arduino
 void serialEvent(int serial) 
 { 
-  try  {    // try-catch because of transmission errors
-    if(serial != NEWLINE) { 
+  try {    // try-catch because of transmission errors
+    if (serial != NEWLINE) { 
       buff += char(serial);
     } else {
       // The first character tells us which axis this value is for
@@ -62,12 +121,12 @@ void serialEvent(int serial)
       // Discard the carriage return at the end of the buffer
       buff = buff.substring(0, buff.length()-1);
       // Parse the String into an integer
-      for(int z=0;z<2;z++) {
-        if(c == header[z]) {
-          value[z] = Integer.parseInt(buff); 
+      for (int z=0; z<2; z++) {
+        if (c == header[z]) {
+          value[z] = Integer.parseInt(buff);
         }
       }
-    buff = ""; // Clear the value of "buff"
+      buff = ""; // Clear the value of "buff"
     }
   }
   catch(Exception e) {
