@@ -80,9 +80,11 @@ class Game {
       image(crab, posX+700, posY-300);
 
       main.menu.stop();
+      if (music){
       if (!raveSound.isPlaying()) {
         raveSound.play();
       }
+    }
     }
   }
   void animatedBackground() { //animated background from menu class
