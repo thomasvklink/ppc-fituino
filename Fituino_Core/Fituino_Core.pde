@@ -27,7 +27,7 @@ color pressed = color(0, 53, 54);
 //Settings
 boolean music = true;
 float volume = 0.5;
-int screen = 2;
+int screen = 4;
 
 //Global values
 boolean mouseWasPressed;
@@ -36,6 +36,7 @@ boolean mouseWasPressed;
 Menu main;
 Test test;
 Game game;
+Over gameOver;
 
 //Gifs, sound and images
 Gif crab;
@@ -65,6 +66,7 @@ void setup() {
   main = new Menu(width/2, height/2-50, 1);
   game = new Game(width/2, height/2);
   test = new Test(width/2, height/2);
+  gameOver = new Over(width/2, height/2);
 
   load();
   connect();
@@ -87,6 +89,9 @@ void draw() {
   case 3:
     test.display();
     break;
+  case 4:
+    gameOver.display();
+    break;
   }
 
   //Back end
@@ -97,15 +102,17 @@ void mouseMoved() {
   main.update(mouseX, mouseY);
 }
 
-void mousePressed(){
+void mousePressed() {
 
   mouseWasPressed=true;
   main.clicked();
 }
+
 void load() {
   main.load();
   game.load();
   test.load();
+  gameOver.load();
 }
 
 void connect() {

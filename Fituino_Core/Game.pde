@@ -21,7 +21,7 @@ class Game {
   FeetLeft[] feetL;
   boolean left =true;
   int feetAmount=60;
-
+  int touchTimer;
 
   Game(int posX, int posY) {
     this.posX = posX;
@@ -61,6 +61,15 @@ class Game {
       startTime=millis();
     }
 
+    if (touchL==1 || touchR==1) {
+      touchTimer++;
+    } else {
+      touchTimer=0;
+    }
+
+    if (touchTimer>240) {
+      screen=4;
+    }
     //time show and set
     text("Time: "+time, posX+750, posY+500);
     time = int((millis() - startTime)/1000);
@@ -98,7 +107,7 @@ class Game {
     for (FeetLeft feet : feetL) {
       feet.display();
     }
-    if (int(random(0,75))==1) {
+    if (int(random(0, 75))==1) {
       if (left) {
         feetL[feetSpawn].makeActive();
         left=false;
