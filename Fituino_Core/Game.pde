@@ -13,9 +13,14 @@ class Game {
   SoundFile raveSound;
   int time = 0;
   int startTime;
+  int lastTime;
+  int feetSpawn;
   boolean start;
   int yLeft, yRight;
-  Feet[] feet;
+  FeetRight[] feetR;
+  FeetLeft[] feetL;
+  boolean left =true;
+  int feetAmount=60;
 
 
   Game(int posX, int posY) {
@@ -29,7 +34,14 @@ class Game {
     raveSound = new SoundFile(Fituino_Core.this, "crabRave.wav");
     fr = loadImage("rightFoot.png");
     fl = loadImage("leftFoot.png");
-    feet = new Feet[60];
+    feetR = new FeetRight[feetAmount];
+    for (int i = 0; i < feetAmount; i++) {
+      feetR[i] = new FeetRight(posX, posY);
+    }
+    feetL = new FeetLeft[feetAmount];
+    for (int i = 0; i < feetAmount; i++) {
+      feetL[i] = new FeetLeft(posX, posY);
+    }
   }
   void display() {
     // background and
@@ -80,6 +92,23 @@ class Game {
     rave = choice;
   }
   void feet() {
+    for (FeetRight feet : feetR) {
+      feet.display();
+    }
+    for (FeetLeft feet : feetL) {
+      feet.display();
+    }
+    if (int(random(0,75))==1) {
+      if (left) {
+        feetL[feetSpawn].makeActive();
+        left=false;
+      } else {
+        feetR[feetSpawn].makeActive();
+        left=true;
+      }
 
+      feetSpawn++;
+      lastTime=time;
+    }
   }
 }
