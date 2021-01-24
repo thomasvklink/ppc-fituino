@@ -1,5 +1,5 @@
 /*
-Fituino Sensor inferface
+Fituino Sensor Interface
 January 2021
 by Thomas van Klink, s2555913
 and Hylke Jellema, s2192098
@@ -10,65 +10,71 @@ by Edwin Dertien
 - lines 31-32, 88-92
 */
 
+// Fixed connected pins
 const int LEDG = 9;
 const int LEDY = 10;
 const int LEDL = 12;
 const int LEDR = 11;
 const int SPEAKER = 8;
 
-#include <CapacitiveSensor.h>
+//Capacitive sensing
+#include <CapacitiveSensor.h>                            //Include capacitive sensor libary
 CapacitiveSensor SensorL = CapacitiveSensor(4, 2);       //Pin 2 is the sensor pin
 CapacitiveSensor SensorR = CapacitiveSensor(4, 3);       //Pin 3 is the sensor pin
 
+//Variables for capacitive sensing
 unsigned long counter = 0;
 float totalL;
 float totalR;
 unsigned int avgL;
 unsigned int avgR;
+const int TRESHOLD = 400;
 boolean touchL;
 boolean touchR;
 
-int data[] = {touchL,touchR}; // fill in the number of pins to send
-char headers[] = {'L','R'}; //Prefix for the pins (headers)
-int incomingByte;      // a variable to read incoming serial data into
+//Variables for Processing communication
+int data[] = {touchL,touchR};                           //Variables to send to Processing
+const int DATASIZE = sizeof(data) / sizeof(int);        //Calculate size of array in a integer
+char headers[] = {'L','R'};                             //Prefix for the data (headers)
+int incomingByte;                                       //Variable to read incoming serial data into
 
 void setup() {
-  Serial.begin(9600);
-  pinMode(LEDG, OUTPUT);
+  Serial.begin(9600);                                   //Start serial communication
+  pinMode(LEDG, OUTPUT);                                //Set LED pins as outputs.
   pinMode(LEDY, OUTPUT);
   pinMode(LEDL, OUTPUT);
   pinMode(LEDR, OUTPUT);
 }
 
 void loop() {
-  counter++;
-  long senseL =  SensorL.capacitiveSensor(30);
-  long senseR =  SensorR.capacitiveSensor(30);
-  totalL = totalL + senseL;
-  avgL = totalL / counter;
-  totalR = totalR + senseR;
-  avgR = totalR / counter;
+  counter++;                                            //Increase loop counter by one
+  long senseL =  SensorL.capacitiveSensor(30);          //Raw sensor data left
+  long senseR =  SensorR.capacitiveSensor(30);          //Raw sensor data right
+  totalL = totalL + senseL;                             //Total of sensing data left
+  avgL = totalL / counter;                              //Calculate average of sensing data since program start
+  totalR = totalR + senseR;                             //Total of sensing data right
+  avgR = totalR / counter;                              //Calculate average of sensing data since program start
 
-  if (senseL > avgL + 400) {
+  if (senseL > avgL + TRESHOLD) {                       //If the capacitive sensor reading is higher then the average reading left + 400, it is being touched.
     touchL = true;
     touchR = false;
-    tone(SPEAKER, 300);
-    digitalWrite(LEDL, HIGH);
+    tone(SPEAKER, 300);                                 //300 Hz tone out of Piezo speaker when touched
+    digitalWrite(LEDL, HIGH);                           //Indicating LED left on
   } else {
     touchL = false;
-    noTone(SPEAKER);
-    digitalWrite(LEDL, LOW);
+    noTone(SPEAKER);                                    //Stop tone
+    digitalWrite(LEDL, LOW);                            //Indicating LED left off
   }
 
-  if (senseR > avgR + 400) {
+  if (senseR > avgR + TRESHOLD) {                       //If the capacitive sensor reading is higher then the average reading right + 400, it is being touched.
     touchR = true;
     touchL = false;
-    tone(SPEAKER, 300);
-    digitalWrite(LEDR, HIGH);
+    tone(SPEAKER, 300);                                 //300 Hz tone out of Piezo speaker when touched
+    digitalWrite(LEDR, HIGH);                           //Indicating LED right on
   } else {
     touchR = false;
-    noTone(SPEAKER);
-    digitalWrite(LEDR, LOW);
+    noTone(SPEAKER);                                    //Stop tone
+    digitalWrite(LEDR, LOW);                            //Indicating LED right off
   }
 
   //Test output
@@ -84,37 +90,29 @@ void loop() {
   Serial.println(avgR);
   Serial.print("TOUCH R:");
   Serial.println(touchR);
-  
-  int data[] = {touchL,touchR};
-  for(int z=0;z<2;z++){
+
+  //Serial communcation to Processing
+  int data[] = {touchL,touchR};                       //Data array for Processing communication
+  for(int z=0;z<DATASIZE;z++){                        //Print data to the serial port
     Serial.print(headers[z]);
     Serial.println(data[z]);
   }
 
-  // see if there's incoming serial data:
+  //Serial communication from Processing
   if (Serial.available() > 0) {
-    // read the oldest byte in the serial buffer:
-    incomingByte = Serial.read();
-    // if it's a capital H (ASCII 72), turn on the LED:
-    if (incomingByte == 'H') {
+    incomingByte = Serial.read();                     // read the oldest byte in the serial buffer
+    if (incomingByte == 'H') {                        // if it's a capital H, turn on the Green indicator LED (LEDG)
       digitalWrite(LEDG, HIGH);
-    } 
-    // if it's an L (ASCII 76) turn off the LED:
-    if (incomingByte == 'L') {
+    }                                  
+    if (incomingByte == 'L') {                        // if it's an L (ASCII 76) turn off the Green indicator LED (LEDG)
       digitalWrite(LEDG, LOW);
     }
-
-    // if it's an 0 (ASCII 76) turn off the LED:
-    if (incomingByte == 'O') {
+    if (incomingByte == 'O') {                        // if it's an 0 (ASCII 76) turn off the Yellow indicator LED (LEDG)
       digitalWrite(LEDY, HIGH);
     }
-
-    // if it's an F (ASCII 76) turn off the LED:
-    if (incomingByte == 'F') {
+    if (incomingByte == 'F') {                        // if it's an F (ASCII 76) turn off the Yellow indicator LED (LEDG)
       digitalWrite(LEDY, LOW);
     }
   }
-  
-  delay(10);
-  
+           
 }
