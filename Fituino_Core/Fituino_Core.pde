@@ -20,6 +20,10 @@ import processing.serial.*;
 import processing.sound.*;
 import gifAnimation.*;
 
+//Colors
+color arduino = color(0, 129, 132);
+color pressed = color(0, 53, 54);
+
 //Settings
 boolean music = true;
 float volume = 0.5;
@@ -93,10 +97,11 @@ void mouseMoved() {
   main.update(mouseX, mouseY);
 }
 
-void mousePressed() {
-  mouseWasPressed=true;
-}
+void mousePressed(){
 
+  mouseWasPressed=true;
+  main.clicked();
+}
 void load() {
   main.load();
   game.load();
