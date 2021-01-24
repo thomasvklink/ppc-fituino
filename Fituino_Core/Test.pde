@@ -1,13 +1,15 @@
 /*
 Class for the Test page
+-- Displays an overview of the Fituino Interface and provides feedback to
+-- check if your arduino has been properly set up.
  */
 
 class Test {
   int posX;
   int posY;
+  boolean overBack;
 
-
-  PImage breadboard, footLeft, footRight;
+  PImage breadboard, footLeft, footRight; 
   Menu background;
   
   Test(int posX, int posY) {
@@ -51,6 +53,30 @@ class Test {
     fill(255);
     textSize(40);
     text("R",posX+70, posY+365);
+    
+    if(!overBack){
+      fill(200);
+    } else {
+      fill(150);
+    }
+    rect(posX, posY+460, 470, 50);
+    fill(255);
+    textSize(25);
+    text("Back to main menu", posX, posY+470);
   }
+  
+  void update(int mousePosX, int mousePosY) {
+
+    if ((mousePosX > posX-235) && (mousePosX < posX+235) && (mousePosY > posY+470-25) && (mousePosY < posY+470+25)) {
+      overBack = true;
+    } else { overBack = false;}
+    println(overBack);
+  }
+  
+  void clicked(){
+    if(overBack){
+      screen = 1;
+    }
+   }
   
 }

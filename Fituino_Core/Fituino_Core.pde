@@ -13,6 +13,9 @@ Fituino, an Arduino interfaced fitness game in Processing
  - logo.png -- own work by Thomas van Klink
  - background-texture.jpg from Depositphotos -- https://depositphotos.com/nl/vector-images/seamless-pattern.html?qview=23759519
  - soundcreate-brand-new-start.mp3 from SoundCrate -- https://sfx.productioncrate.com/royalty-free-music/soundscrate-brand-new-start
+ - foot-left.png from PNGEGG -- https://www.pngegg.com/nl/png-zkizs
+ - foot-right.png - mirrored foot-left.png
+ - All icons from FontAwesome
  */
 
 //Libaries
@@ -25,7 +28,8 @@ color arduino = color(0, 129, 132);
 color pressed = color(0, 53, 54);
 
 //Settings
-boolean music = true;
+boolean music;
+boolean sound;
 float volume = 0.5;
 int screen = 4;
 
@@ -100,19 +104,33 @@ void draw() {
 
 void mouseMoved() {
   main.update(mouseX, mouseY);
+  test.update(mouseX, mouseY);
 }
 
-void mousePressed() {
-
+void mousePressed(){
   mouseWasPressed=true;
   main.clicked();
+  test.clicked();
 }
 
 void load() {
+  String[] settings = loadStrings("settings.txt"); //Loading MOTD's (Message of the day) from a text file.
+  music = boolean(settings[0]);
+  sound = boolean(settings[1]);
+  volume = float(settings[2]);
+  
   main.load();
   game.load();
   test.load();
   gameOver.load();
+}
+
+void saveSetting(){
+ String settings[] = new String[3];
+  settings[0] = str(music);
+  settings[1] = str(sound);
+  settings[2] = str(volume);
+  saveStrings("settings.txt", settings);
 }
 
 void connect() {
