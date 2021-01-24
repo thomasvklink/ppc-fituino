@@ -6,10 +6,16 @@ class Game {
   int posX;
   int posY;
   int type;
-  PImage box, background;
+  int score;
+  PImage box, background, fl, fr;
   int backgroundPos = 0;
   boolean rave = true;
   SoundFile raveSound;
+  int time = 0;
+  int startTime;
+  boolean start;
+  int yLeft, yRight;
+  Feet[] feet;
 
 
   Game(int posX, int posY) {
@@ -21,15 +27,37 @@ class Game {
     box = loadImage("gameBox.png");
     background = loadImage("background-texture.jpg");
     raveSound = new SoundFile(Fituino_Core.this, "crabRave.wav");
+    fr = loadImage("rightFoot.png");
+    fl = loadImage("leftFoot.png");
+    feet = new Feet[60];
   }
-
   void display() {
-    // Always displayed
+    // background and
     animatedBackground();
     image(box, posX, posY);
+    image(fl, posX-150, posY+400);
+    image(fr, posX+150, posY+400); 
+
+    feet();
+
+    textSize(40);
+    fill(0);
+    text("Score: "+score, posX-800, posY+500);
+
+    if (!start) {
+      start=true;
+      startTime=millis();
+    }
+
+    //time show and set
+    text("Time: "+time, posX+750, posY+500);
+    time = int((millis() - startTime)/1000);
 
     if (rave) {
-      image(crab, posX+20, posY+20);
+
+      image(crab, posX-700, posY-300);
+      image(crab, posX+700, posY-300);
+
       main.menu.stop();
       if (!raveSound.isPlaying()) {
         raveSound.play();
@@ -50,5 +78,8 @@ class Game {
 
   void setRave(boolean choice) { //setter for rave mode
     rave = choice;
+  }
+  void feet() {
+
   }
 }
