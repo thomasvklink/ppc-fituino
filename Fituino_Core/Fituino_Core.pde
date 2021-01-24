@@ -31,7 +31,7 @@ color pressed = color(0, 53, 54);
 boolean music;
 boolean sound;
 float volume = 0.5;
-int screen = 1;
+int screen = 2;
 
 //Global values
 boolean mouseWasPressed;
