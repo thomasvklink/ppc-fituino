@@ -6,12 +6,12 @@ class Menu {
   int posX;
   int posY;
   int type;
-  
+
   int mousePosX;
   int mousePosY;
   boolean overStart;
   boolean overPractise;
-  
+
   int backgroundPos = 0;
 
   PImage logo, background;
@@ -41,15 +41,21 @@ class Menu {
       break;
     }
   }
-  
-  void update(int mousePosX, int mousePosY){
+
+  void update(int mousePosX, int mousePosY) {
     //this.mousePosX = mousePosX;
     //this.mousePosY = mousePosY;
-    
-    if ((mousePosX > posX-375) && (mousePosX < posX+25) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)){
+
+    if ((mousePosX > posX-375) && (mousePosX < posX+25) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)) {
       overStart = true;
-    } else { overStart = false;}
-    println(overStart);
+      if (mouseWasPressed) {
+        mouseWasPressed=false;
+        screen = 2; //switch to game if mouse is pressed while hovering
+      }
+    } else { 
+      overStart = false;
+    }
+    println("Over Start: "+overStart);
   }
 
   void mainMenu() {
@@ -64,12 +70,12 @@ class Menu {
 
     //Button start
     noStroke();
-    if (!overStart){
+    if (!overStart) {
       fill(0, 129, 132);
     } else {
       fill(0, 53, 54);
     }
-    
+
     rect(posX-175, posY+200, 400, 80);
     fill(255);
     textSize(30);
@@ -90,7 +96,6 @@ class Menu {
   }
 
   void pauseMenu() {
-    
   }
 
   void music() {
@@ -98,8 +103,8 @@ class Menu {
       switch(type) {
       case 1:
         if (!menu.isPlaying()) {
-           menu.play();
-           menu.amp(volume);
+          menu.play();
+          menu.amp(volume);
         }
         break;
       case 2:
