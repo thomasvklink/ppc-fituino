@@ -6,12 +6,12 @@ class Menu {
   int posX;
   int posY;
   int type;
-  
+
   int mousePosX;
   int mousePosY;
   boolean overStart;
   boolean overTest;
-  
+
   int backgroundPos = 0;
   
   String motd;
@@ -45,19 +45,15 @@ class Menu {
       break;
     }
   }
-  
-  void update(int mousePosX, int mousePosY){
+
+  void update(int mousePosX, int mousePosY) {
     //this.mousePosX = mousePosX;
     //this.mousePosY = mousePosY;
-    
-    if ((mousePosX > posX-375) && (mousePosX < posX+25) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)){
+
+    if ((mousePosX > posX-375) && (mousePosX < posX+25) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)) {
       overStart = true;
     } else { overStart = false;}
-    
-    if ((mousePosX > posX+60) && (mousePosX < posX+260) && (mousePosY > posY+200-40) && (mousePosY < posY+200+40)){
-      overTest = true;
-    } else { overTest = false;}
-    println(overTest);
+    println(overStart);
   }
   
   void clicked(){
@@ -83,10 +79,11 @@ class Menu {
     //Button start
     noStroke();
     if (!overStart){
-      fill(arduino);
+      fill(0, 129, 132);
     } else {
       fill(pressed);
     }
+    
     rect(posX-175, posY+200, 400, 80);
     fill(255);
     textSize(30);
@@ -111,7 +108,6 @@ class Menu {
   }
 
   void pauseMenu() {
-    
   }
 
   void music() {
@@ -119,8 +115,8 @@ class Menu {
       switch(type) {
       case 1:
         if (!menu.isPlaying()) {
-           menu.play();
-           menu.amp(volume);
+          menu.play();
+          menu.amp(volume);
         }
         break;
       case 2:
