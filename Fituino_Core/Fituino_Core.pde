@@ -31,7 +31,7 @@ color pressed = color(0, 53, 54);
 boolean music;
 boolean sound;
 float volume = 0.5;
-int screen = 4;
+int screen = 1;
 
 //Global values
 boolean mouseWasPressed;
@@ -140,12 +140,12 @@ void connect() {
     print("[" + i + "] ");
     println(Serial.list()[i]);
   }
-  // port = new Serial(this, Serial.list()[0], 9600);
+   port = new Serial(this, Serial.list()[0], 9600);
 }
 
 void read() {
   //Arduino controller
-  /*  while (port.available() > 0) {
+    while (port.available() > 0) {
    serialEvent(port.read()); // read data
    }
    touchL = value[0];
@@ -177,5 +177,5 @@ void read() {
    }
    catch(Exception e) {
    println("no valid data");
-   }*/
+   }
 }
