@@ -67,7 +67,7 @@ class Game {
       touchTimer=0;
     }
 
-    if (touchTimer>240) {
+    if (touchTimer>240 || time>55) {
       screen=4;
     }
     //time show and set
@@ -119,7 +119,6 @@ class Game {
       }
 
       feetSpawn++;
-      lastTime=time;
     }
   }
 }
