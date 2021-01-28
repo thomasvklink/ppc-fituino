@@ -86,15 +86,23 @@ void draw() {
     //Front end
   case 1:
     main.display();
+    port.write('L');
+    port.write('O');
     break;
   case 2:
     game.display();
+    port.write('H');
+    port.write('F');
     break;
   case 3:
     test.display();
+    port.write('H');
+    port.write('F');
     break;
   case 4:
     gameOver.display();
+    port.write('L');
+    port.write('O');
     break;
   }
 
@@ -114,7 +122,7 @@ void mousePressed(){
 }
 
 void load() {
-  String[] settings = loadStrings("settings.txt"); //Loading MOTD's (Message of the day) from a text file.
+  String[] settings = loadStrings("settings.txt"); //Loading settings from a text file.
   music = boolean(settings[0]);
   sound = boolean(settings[1]);
   volume = float(settings[2]);
@@ -126,11 +134,11 @@ void load() {
 }
 
 void saveSetting(){
- String settings[] = new String[3];
+ String settings[] = new String[3]; 
   settings[0] = str(music);
   settings[1] = str(sound);
   settings[2] = str(volume);
-  saveStrings("settings.txt", settings);
+  saveStrings("settings.txt", settings); //Saving settings to a text file.
 }
 
 void connect() {
@@ -177,5 +185,5 @@ void read() {
    }
    catch(Exception e) {
    println("no valid data");
-   }
+   } 
 }

@@ -1,6 +1,6 @@
 /*
 Class for the game menus
- */
+*/
 
 class Game {
   int posX;
@@ -20,7 +20,7 @@ class Game {
   FeetRight[] feetR;
   FeetLeft[] feetL;
   boolean left =true;
-  int feetAmount=60;
+  int feetAmount=120;
   int touchTimer;
 
   Game(int posX, int posY) {

@@ -45,7 +45,6 @@ class Test {
     if(touchR == 0){
     fill(arduino);
     } else {
-    ellipse(posY,posX,100,100);
     image(footRight, posX+600, posY, 1600/1.5, 1600/1.5);
     fill(pressed);
     }
