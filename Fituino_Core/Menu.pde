@@ -213,7 +213,7 @@ class Menu {
           menu.amp(volume); //Change the volume according to global setting.
         } 
         break;
-      case 2: //Pauze menu music
+      case 2: //Pause menu music
       //TO ADD IN FUTURE VERSION
         break;
       }

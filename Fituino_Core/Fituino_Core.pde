@@ -7,7 +7,7 @@ Fituino, an Arduino interfaced fitness game in Processing
  
  Arduino communication based on "graphwriter" 
  by Edwin Dertien
- - lines 23-30, 36-42, 88-94, 98-122
+ - lines 52-60, 144-151, 153-187
  
  Assets:
  - logo.png -- own work by Thomas van Klink
@@ -61,7 +61,9 @@ Serial port;
 
 
 void setup() {
-  size(1920, 1080);
+  //Sketch settings
+  size(1920,1080);
+  //fullScreen();
   rectMode(CENTER);
   ellipseMode(CENTER);
   imageMode(CENTER);
@@ -72,8 +74,8 @@ void setup() {
   test = new Test(width/2, height/2);
   gameOver = new Over(width/2, height/2);
 
-  load();
-  connect();
+  load(); //Run load method to load several elements
+  connect(); //Run connect method to connect the Arduino
 
   crab = new Gif(this, "crab.gif");
   crab.play();
@@ -84,25 +86,25 @@ void draw() {
 
   switch(screen) {
     //Front end
-  case 1:
+  case 1: //Main menu
     main.display();
-    port.write('L');
-    port.write('O');
+    port.write('L'); //Indicator light green to off
+    port.write('O'); //Inidcator light yellow to on
     break;
-  case 2:
+  case 2: //Game screen
     game.display();
-    port.write('H');
-    port.write('F');
+    port.write('H'); //Indicator light green to on
+    port.write('F'); //Indicator light yellow to off
     break;
-  case 3:
-    test.display();
-    port.write('H');
-    port.write('F');
+  case 3: //Test screen
+    test.display(); 
+    port.write('H'); //Indicator light green to on
+    port.write('F'); //Indicator light yellow to off
     break;
-  case 4:
+  case 4: //Game over screen
     gameOver.display();
-    port.write('L');
-    port.write('O');
+    port.write('L'); //Indicator light green to off
+    port.write('O'); //Indicator light yellow to on
     break;
   }
 
@@ -110,18 +112,18 @@ void draw() {
   read();
 }
 
-void mouseMoved() {
+void mouseMoved() { //Handles hover updates for buttons
   main.update(mouseX, mouseY);
   test.update(mouseX, mouseY);
 }
 
-void mousePressed(){
+void mousePressed(){ //Handles click updates for buttons
   mouseWasPressed=true;
   main.clicked();
   test.clicked();
 }
 
-void load() {
+void load() { //Loads several elements of the program
   String[] settings = loadStrings("settings.txt"); //Loading settings from a text file.
   music = boolean(settings[0]);
   sound = boolean(settings[1]);
@@ -133,7 +135,7 @@ void load() {
   gameOver.load();
 }
 
-void saveSetting(){
+void saveSetting(){ //Saves setting of the program
  String settings[] = new String[3]; 
   settings[0] = str(music);
   settings[1] = str(sound);
@@ -141,8 +143,7 @@ void saveSetting(){
   saveStrings("settings.txt", settings); //Saving settings to a text file.
 }
 
-void connect() {
-  //Connecting Arduino via serial
+void connect() { //Connecting Arduino via serial
   println("Available serial ports:");
   for (int i = 0; i<Serial.list ().length; i++) { 
     print("[" + i + "] ");
@@ -153,12 +154,11 @@ void connect() {
 
 void read() {
   //Arduino controller
-    while (port.available() > 0) {
+   while (port.available() > 0) {
    serialEvent(port.read()); // read data
    }
-   touchL = value[0];
-   touchR = value[1];
-   println(touchL, touchR);
+   touchL = value[0]; //Touch value of capacitive sensor left, when pressed it becomes 1
+   touchR = value[1]; //Touch value of capacitive sensor right, when pressed it becomes 1
    }
    
    //Catch and parse serial data from Arduino
