@@ -1,5 +1,9 @@
 /*
-Class for the game menus
+Class for the game
+
+(extra) Assets:
+Crab sound from Eoin O'Brien
+Crab gif from Tenor
 */
 
 class Game {
