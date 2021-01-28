@@ -8,9 +8,13 @@ for Creative Technology M2 PPC End assignment
 Serial communication with Processing based on "graphwriter" 
 by Edwin Dertien
 - lines 31-32, 88-92
+
+Capacitive sensing with the CapacitiveSensor libary
+by Paul Bagder and Paul Stoffregen
+- lines 25-27, 55-56
 */
 
-// Fixed connected pins
+//Fixed connected pins
 const int LEDG = 9;
 const int LEDY = 10;
 const int LEDL = 12;
@@ -76,20 +80,6 @@ void loop() {
     noTone(SPEAKER);                                    //Stop tone
     digitalWrite(LEDR, LOW);                            //Indicating LED right off
   }
-
-  //Test output
-  Serial.print("L:");
-  Serial.println(senseL);
-  Serial.print("AVG L:");
-  Serial.println(avgL);
-  Serial.print("TOUCH L:");
-  Serial.println(touchL);
-  Serial.print("R:");
-  Serial.println(senseR);
-  Serial.print("AVG R:");
-  Serial.println(avgR);
-  Serial.print("TOUCH R:");
-  Serial.println(touchR);
 
   //Serial communcation to Processing
   int data[] = {touchL,touchR};                          //Data array for Processing communication
