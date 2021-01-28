@@ -1,10 +1,11 @@
 /*
 Class for the game
-
-(extra) Assets:
-Crab sound from Eoin O'Brien
-Crab gif from Tenor
-*/
+ 
+ (extra) Assets:
+ Crab sound from Eoin O'Brien
+ Crab gif from Tenor
+ Gif library from Patrick Meister
+ */
 
 class Game {
   int posX;
@@ -84,11 +85,11 @@ class Game {
       image(crab, posX+700, posY-300);
 
       main.menu.stop();
-      if (music){
-      if (!raveSound.isPlaying()) {
-        raveSound.play();
+      if (music) {
+        if (!raveSound.isPlaying()) {
+          raveSound.play();
+        }
       }
-    }
     }
   }
   void animatedBackground() { //animated background from menu class
@@ -109,9 +110,11 @@ class Game {
   void feet() {
     for (FeetRight feet : feetR) {
       feet.display();
+      feet.update();
     }
     for (FeetLeft feet : feetL) {
       feet.display();
+      feet.update();
     }
     if (int(random(0, 75))==1) {
       if (left) {

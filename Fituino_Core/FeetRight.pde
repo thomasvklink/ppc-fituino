@@ -14,6 +14,8 @@ class FeetRight {
 
   void display() {
     image(ffr, posX+150, posY+currentPos);
+  }
+  void update() {
     if (active) {
       currentPos+=10;
     }
